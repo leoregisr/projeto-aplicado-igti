@@ -1,0 +1,52 @@
+﻿# Docker
+# Build a Docker image 
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+resources:
+- repo: self
+
+variables:
+    tag: projeto-aplicado-api-$(Build.BuildNumber)    
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Docker@2
+      displayName: Build an image
+      inputs:        
+        repository: '$(repository)'
+        command: build
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        buildContext: '$(Build.SourcesDirectory)'
+        tags: $(tag)        
+    - task: Docker@2
+      displayName: Push image
+      inputs:       
+       repository: $(repository)
+       command: 'push'
+       tags: '$(tag)' 
+    - task: CopyFiles@2
+      displayName: Copy devops files
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/devops'
+        Contents: '**'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/devops'
+        OverWrite: true
+    - task: PublishBuildArtifacts@1
+      displayName: Publish artifacts
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'build'
+        publishLocation: 'Container'  
+- step: Deploy
+  displayName: Deploy
+  timeoutInMinutes: 60 #Limite de tempo de execução
+  jobs:  
+  - job: Deploy
+    displayName: Deploy
+    dependsOn: Build

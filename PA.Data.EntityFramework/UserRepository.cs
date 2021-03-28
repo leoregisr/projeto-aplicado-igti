@@ -5,11 +5,11 @@ namespace PA.Data.EntityFramework
 {
     public class UserRepository : IUserRepository
     {
-        public UserDataDbContext Context { get; }
+        private readonly UserDataDbContext _context;
 
         public UserRepository(UserDataDbContext context)
         {
-            Context = context;
+            _context = context;
         }
 
         public User Get(int id)

@@ -1,0 +1,21 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pa-deployment
+  labels:
+    app: projeto-aplicado
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: projeto-aplicado
+  template:
+    metadata:
+      labels:
+        app: projeto-aplicado
+    spec:
+      containers:
+      - name: projeto-aplicado
+        image: projeto-aplicado:latest
+        ports:
+        - containerPort: 80
