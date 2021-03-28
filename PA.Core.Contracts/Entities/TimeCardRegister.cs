@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace PA_API.Models.TimeCard
+namespace PA.Core.Contracts.Entities
 {
-    public class TimeCardRegisterViewModel
+    public class TimeCardRegister
     {
         public int ID { get; set; }
 
@@ -10,6 +10,6 @@ namespace PA_API.Models.TimeCard
 
         public string ProjectName { get; set; }
 
-        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

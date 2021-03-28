@@ -1,28 +1,40 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using PA_API.Services;
 
 namespace PA_API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class LoginController : ControllerBase
     {
         private readonly ILogger<LoginController> _logger;
+        private readonly UserService _userService;
 
-        public LoginController(ILogger<LoginController> logger)
+        public LoginController(ILogger<LoginController> logger, UserService userService)
         {
             _logger = logger;
+            _userService = userService;
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("Login")]
         public IActionResult Login(string username, string password)
         {
-            return new JsonResult("");
+            var user = _userService.Login(username, password);
+
+            var token = TokenService.GenerateToken(user);
+
+            return Ok(new
+            {
+                user = user,
+                token = token
+            });
         }
 
         [HttpPost]
@@ -34,14 +46,14 @@ namespace PA_API.Controllers
 
         [HttpPost]
         [Route("SendNewPassword")]
-        public IActionResult SendNewPassword(string username)
+        public IActionResult SendNewPassword()
         {
             return new JsonResult("");
         }
 
         [HttpPost]
         [Route("ChangePassword")]
-        public IActionResult ChangePassword(string username, string oldPassword, string newPassword)
+        public IActionResult ChangePassword(string oldPassword, string newPassword)
         {
             return new JsonResult("");
         }
