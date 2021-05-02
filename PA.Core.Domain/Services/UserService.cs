@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using PA.Core.Contracts.Repositories;
-using PA_API.Exceptions;
-using PA_API.Models.User;
+using PA.Common.Exceptions;
+using PA.Core.Contracts.TransferObjects;
+using PA.Core.Domain.Repositories;
 
-namespace PA_API.Services
+namespace PA.Core.Domain.Services
 {
     public class UserService
     {
@@ -16,7 +16,7 @@ namespace PA_API.Services
             _mapper = mapper;
         }
 
-        public UserViewModel Login(string username, string password)
+        public UserDto Login(string username, string password)
         {
             var user = _userRepository.GetByUserName(username);
 
@@ -28,10 +28,22 @@ namespace PA_API.Services
             if (encodedPassword != user.Password)
                 throw new InvalidLoginOrPasswordException();
 
-            return _mapper.Map<UserViewModel>(user);
+            return _mapper.Map<UserDto>(user);
         }
 
-        public UserViewModel UpdateUser(UserViewModel userViewModel)
+        public UserDto Login(string token)
+        {
+            var tokenInfo = TokenService.ParseToken(token);
+
+            var user = _userRepository.Get(int.Parse(tokenInfo.Id));
+
+            if (user == null)
+                throw new InvalidLoginOrPasswordException();
+
+            return _mapper.Map<UserDto>(user);
+        }
+
+        public UserDto UpdateUser(UserDto userViewModel)
         {
             var user = _userRepository.Get(userViewModel.Id);
 
@@ -40,14 +52,14 @@ namespace PA_API.Services
 
             user = _userRepository.UpdateUser(user);
 
-            return _mapper.Map<UserViewModel>(user);
+            return _mapper.Map<UserDto>(user);
         }     
         
-        public UserViewModel GetByUserName(string userName)
+        public UserDto GetByUserName(string userName)
         {
             var user = _userRepository.GetByUserName(userName);
 
-            return _mapper.Map<UserViewModel>(user);
+            return _mapper.Map<UserDto>(user);
         }        
     }
 }

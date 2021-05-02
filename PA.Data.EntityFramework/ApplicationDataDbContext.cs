@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace PA.Data.EntityFramework
+namespace PA.Data.Repositories.EntityFramework
 {
     public class ApplicationDataDbContext : DbContext
     {

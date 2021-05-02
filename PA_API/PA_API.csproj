@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PA.Core.Contracts\PA.Core.Contracts.csproj" />
-    <ProjectReference Include="..\PA.Data.EntityFramework\PA.Data.EntityFramework.csproj" />
+    <ProjectReference Include="..\PA.Data.EntityFramework\PA.Data.Repositories.EntityFramework.csproj" />
   </ItemGroup>
 
 

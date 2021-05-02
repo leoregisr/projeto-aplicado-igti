@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace PA.Core.Contracts.Entities
+namespace PA.Core.Contracts.TransferObjects
 {
-    public class TimeCardRegister
+    public class TimeCardRegisterDto
     {
         public int ID { get; set; }
 
@@ -10,6 +10,6 @@ namespace PA.Core.Contracts.Entities
 
         public string ProjectName { get; set; }
 
-        public User User { get; set; }
+        public int UserId { get; set; }
     }
 }

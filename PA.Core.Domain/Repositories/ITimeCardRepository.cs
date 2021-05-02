@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using PA.Core.Contracts.Entities;
+using PA.Core.Domain.Entities;
 
-namespace PA.Core.Contracts.Repositories
+namespace PA.Core.Domain.Repositories
 {
     public interface ITimeCardRepository
     {

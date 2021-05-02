@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
-using PA.Core.Contracts.Entities;
-using PA.Core.Contracts.Repositories;
-using PA_API.Exceptions;
-using PA_API.Models.TimeCard;
-using PA_API.Models.User;
+using PA.Common.Exceptions;
+using PA.Core.Contracts.TransferObjects;
+using PA.Core.Domain.Entities;
+using PA.Core.Domain.Repositories;
 
-namespace PA_API.Services
+namespace PA.Core.Domain.Services
 {
     public class TimeCardService
     {
@@ -22,7 +21,7 @@ namespace PA_API.Services
             _mapper = mapper;
         }
 
-        public TimeCardRegisterViewModel EditTimeCardRegister(int id, DateTime time, string projectName)
+        public TimeCardRegisterDto EditTimeCardRegister(int id, DateTime time, string projectName)
         {
             var timeCardRegister = GetTimeCardById(id);
 
@@ -34,15 +33,15 @@ namespace PA_API.Services
 
             timeCardRegister = _timeCardRepository.EditTimeCardRegister(timeCardRegister);
             
-            return _mapper.Map<TimeCardRegisterViewModel>(timeCardRegister);
+            return _mapper.Map<TimeCardRegisterDto>(timeCardRegister);
         }
 
-        public TimeCardRegisterViewModel SaveCardRegister(int userId, DateTime time, string projectName)
+        public TimeCardRegisterDto SaveCardRegister(int userId, DateTime time, string projectName)
         {
             var user = _userRepository.Get(userId);
 
             if (user == null)
-                throw new EntityNotFoundException<UserViewModel>(userId);
+                throw new EntityNotFoundException<UserDto>(userId);
 
             var timeCardRegister = new TimeCardRegister()
             {
@@ -53,7 +52,7 @@ namespace PA_API.Services
 
             timeCardRegister = _timeCardRepository.SaveCardRegister(timeCardRegister);
 
-            var model = _mapper.Map<TimeCardRegisterViewModel>(timeCardRegister);
+            var model = _mapper.Map<TimeCardRegisterDto>(timeCardRegister);
 
             return model;
         }
@@ -65,11 +64,11 @@ namespace PA_API.Services
             _timeCardRepository.DeleteTimeCardRegister(timeCardRegister.ID);
         }
 
-        public TimeCardRegisterViewModel GetTimeCardModelById(int id)
+        public TimeCardRegisterDto GetTimeCardModelById(int id)
         {
             var timeCard = GetTimeCardById(id);
 
-            return _mapper.Map<TimeCardRegisterViewModel>(timeCard);
+            return _mapper.Map<TimeCardRegisterDto>(timeCard);
         }
 
         private TimeCardRegister GetTimeCardById(int id)
@@ -82,14 +81,14 @@ namespace PA_API.Services
             return timeCard;
         }
 
-        public IList<TimeCardRegisterViewModel> ListTimeCardRegisterByDate(int userId, DateTime date)
+        public IList<TimeCardRegisterDto> ListTimeCardRegisterByDate(int userId, DateTime date)
         {
             var timeCardRegistries = _timeCardRepository.ListTimeCardRegisterByDate(userId, date);
 
-            return _mapper.Map<List<TimeCardRegisterViewModel>>(timeCardRegistries);
+            return _mapper.Map<List<TimeCardRegisterDto>>(timeCardRegistries);
         }
 
-        public IList<TimeCardRegisterViewModel> ListTimeCardRegisterByYearAndMonth(int userId, int year, int monthNumber)
+        public IList<TimeCardRegisterDto> ListTimeCardRegisterByYearAndMonth(int userId, int year, int monthNumber)
         {
             if (year == 0)
                 throw new ArgumentException("Invalid Year Parameter", nameof(year));
@@ -99,7 +98,7 @@ namespace PA_API.Services
 
             var timeCardRegistries = _timeCardRepository.ListTimeCardRegisterByYearAndMonth(userId, year, monthNumber);
 
-            return _mapper.Map<List<TimeCardRegisterViewModel>>(timeCardRegistries);
+            return _mapper.Map<List<TimeCardRegisterDto>>(timeCardRegistries);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace PA_API.Configuration
+namespace PA.Common.Configuration
 {
     public static class CustomConfigProviderExtensions
     {              

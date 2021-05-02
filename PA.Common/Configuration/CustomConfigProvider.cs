@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 
-namespace PA_API.Configuration
+namespace PA.Common.Configuration
 {
     public class CustomConfigProvider : ConfigurationProvider, IConfigurationSource
     {

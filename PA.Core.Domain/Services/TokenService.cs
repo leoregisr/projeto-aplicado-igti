@@ -6,15 +6,16 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using PA_API.Models.User;
+using PA.Common.Exceptions;
+using PA.Core.Contracts.TransferObjects;
 
-namespace PA_API.Services
+namespace PA.Core.Domain.Services
 {
     public static class TokenService
     {
         private static readonly string JWTKey = "JWTKey";
 
-        public static string GenerateToken(UserViewModel user)
+        public static string GenerateToken(UserDto user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwtKey = GetJWTKey();
@@ -51,6 +52,16 @@ namespace PA_API.Services
                 .Build();
 
             return configuration[JWTKey];
+        }
+
+        public static JwtSecurityToken ParseToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            if (string.IsNullOrEmpty(token))
+                throw new EmptyTokenException();
+
+            return tokenHandler.ReadToken(token) as JwtSecurityToken; 
         }
     }
 }

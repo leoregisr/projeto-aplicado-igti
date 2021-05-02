@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace PA_API.Exceptions
+﻿namespace PA.Common.Exceptions
 {
-    public class InvalidLoginOrPasswordException : Exception
+    public class InvalidLoginOrPasswordException : BaseException
     {
         public InvalidLoginOrPasswordException() : base("Invalid Login/Password")
         {

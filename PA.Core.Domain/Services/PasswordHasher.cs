@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace PA_API.Services
+namespace PA.Core.Domain.Services
 {
     public class PasswordHasher
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PA_API.Services;
+using PA.Core.Domain.Services;
 
 namespace PA_API.Controllers
 {

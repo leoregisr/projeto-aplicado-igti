@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace PA.Data.EntityFramework
+namespace PA.Data.Repositories.EntityFramework
 {
     public static class Bootstrapper
     {

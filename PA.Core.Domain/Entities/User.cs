@@ -1,4 +1,4 @@
-﻿namespace PA.Core.Contracts.Entities
+﻿namespace PA.Core.Domain.Entities
 {
     public class User
     {

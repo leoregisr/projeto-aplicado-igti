@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using PA.Core.Contracts.Entities;
-using PA.Core.Contracts.Repositories;
+using PA.Core.Domain.Entities;
+using PA.Core.Domain.Repositories;
 
-namespace PA.Data.EntityFramework
+namespace PA.Data.Repositories.EntityFramework
 {
     public class TimeCardRepository : ITimeCardRepository
     {
