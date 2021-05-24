@@ -1,0 +1,11 @@
+.spinner-container {
+    height: 100%;
+    width: 100%;
+    flex: 1;
+    z-index: 1060;
+    position: absolute;
+}
+
+.spinner-container > div {
+    margin-top: 25%;
+}
