@@ -1,25 +1,22 @@
 ﻿using PA.Core.Domain.Entities;
 using PA.Core.Domain.Repositories;
+using PA.Data.Repositories.EntityFramework.EF;
 
 namespace PA.Data.Repositories.EntityFramework
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : RepositoryBase<User>, IUserRepository
     {
         private readonly UserDataDbContext _context;
 
-        public UserRepository(UserDataDbContext context)
+        public UserRepository(UserDataDbContext context) : base(context)
         {
             _context = context;
         }
 
-        public User Get(int id)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public User GetByUserName(string username)
         {
-            throw new System.NotImplementedException();
+            return _context.Find<User>();
         }
 
         public User UpdateUser(User user)

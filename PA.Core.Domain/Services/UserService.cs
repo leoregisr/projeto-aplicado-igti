@@ -25,7 +25,7 @@ namespace PA.Core.Domain.Services
 
             var encodedPassword = PasswordHasher.HashPassword(password);
 
-            if (encodedPassword != user.Password)
+            if (encodedPassword != user.Email)
                 throw new InvalidLoginOrPasswordException();
 
             return _mapper.Map<UserDto>(user);
@@ -47,7 +47,7 @@ namespace PA.Core.Domain.Services
         {
             var user = _userRepository.Get(userViewModel.Id);
 
-            user.Password = PasswordHasher.HashPassword(userViewModel.Password);
+            user.Email = PasswordHasher.HashPassword(userViewModel.Password);
             user.Role = user.Role;
 
             user = _userRepository.UpdateUser(user);

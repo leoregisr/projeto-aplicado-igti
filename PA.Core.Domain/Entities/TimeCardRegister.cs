@@ -4,12 +4,14 @@ namespace PA.Core.Domain.Entities
 {
     public class TimeCardRegister
     {
-        public int ID { get; set; }
+        public virtual int Id { get; set; }
 
-        public DateTime Date { get; set; }
+        public virtual DateTime StartDate { get; set; }
 
-        public string ProjectName { get; set; }
+        public virtual DateTime EndDate { get; set; }
 
-        public User User { get; set; }
+        public virtual Project Project { get; set; }
+
+        public virtual User User { get; set; }
     }
 }

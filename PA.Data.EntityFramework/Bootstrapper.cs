@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PA.Core.Domain.Repositories;
 
 namespace PA.Data.Repositories.EntityFramework
 {
@@ -14,6 +15,10 @@ namespace PA.Data.Repositories.EntityFramework
             services.AddDbContextPool<ApplicationDataDbContext>(options => 
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+            services
+                .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<ITimeCardRepository, TimeCardRepository>();
+            
             return services;
         }
     }

@@ -25,11 +25,11 @@ namespace PA.Core.Domain.Services
         {
             var timeCardRegister = GetTimeCardById(id);
 
-            if (time != DateTime.MinValue)
-                timeCardRegister.Date = time;
+            //if (time != DateTime.MinValue)
+            //    timeCardRegister.Date = time;
 
-            if (!string.IsNullOrEmpty(projectName))
-                timeCardRegister.ProjectName = projectName;
+            //if (!string.IsNullOrEmpty(projectName))
+            //    timeCardRegister.ProjectName = projectName;
 
             timeCardRegister = _timeCardRepository.EditTimeCardRegister(timeCardRegister);
             
@@ -45,9 +45,9 @@ namespace PA.Core.Domain.Services
 
             var timeCardRegister = new TimeCardRegister()
             {
-                Date = time,
-                User = user,
-                ProjectName = projectName
+                //Date = time,
+                //User = user,
+                //ProjectName = projectName
             };
 
             timeCardRegister = _timeCardRepository.SaveCardRegister(timeCardRegister);
@@ -61,7 +61,7 @@ namespace PA.Core.Domain.Services
         {
             var timeCardRegister = GetTimeCardById(id);
 
-            _timeCardRepository.DeleteTimeCardRegister(timeCardRegister.ID);
+            _timeCardRepository.DeleteTimeCardRegister(timeCardRegister.Id);
         }
 
         public TimeCardRegisterDto GetTimeCardModelById(int id)

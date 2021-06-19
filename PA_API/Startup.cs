@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using PA.Core.Domain;
 using PA.Data.Repositories.EntityFramework;
 
 namespace PA_API
@@ -24,7 +25,9 @@ namespace PA_API
         {
             services.AddControllers();
 
-            services.AddRepositories(Configuration);
+            services
+                .AddDomain()
+                .AddRepositories(Configuration);
 
             AddSwagger(services);
             AddAuthentication(services);

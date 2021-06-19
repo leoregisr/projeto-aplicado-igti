@@ -1,14 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PA.Data.Repositories.EntityFramework.EF;
 
 namespace PA.Data.Repositories.EntityFramework
 {
-    public class UserDataDbContext : DbContext
+    public class UserDataDbContext : DbContextBase
     {
-        private readonly DbContextOptions<UserDataDbContext> _dbContextOptions;
-
-        public UserDataDbContext(DbContextOptions<UserDataDbContext> dbContextOptions)
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            _dbContextOptions = dbContextOptions;
-        }   
-    }
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserDataDbContext).Assembly);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
+            optionsBuilder.UseSqlServer(GetConnectionString());
+	}
 }
