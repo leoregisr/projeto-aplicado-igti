@@ -2,9 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using PA.Core.Domain.Entities;
 using PA.Core.Domain.Repositories;
+using PA.Data.Repositories.EntityFramework.DbContext;
 using PA.Data.Repositories.EntityFramework.EF;
 
-namespace PA.Data.Repositories.EntityFramework
+namespace PA.Data.Repositories.EntityFramework.Repositories
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {

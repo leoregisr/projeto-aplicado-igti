@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PA.Core.Domain.Repositories;
+using PA.Data.Repositories.EntityFramework.DbContext;
 using PA.Data.Repositories.EntityFramework.EF;
+using PA.Data.Repositories.EntityFramework.Repositories;
 
 namespace PA.Data.Repositories.EntityFramework
 {
@@ -19,7 +21,9 @@ namespace PA.Data.Repositories.EntityFramework
                 .AddScoped<IDbContext, ApplicationDataDbContext>()
                 .AddScoped<ITransactionManager, TransactionManager>()
                 .AddScoped<IUserRepository, UserRepository>()
-                .AddScoped<ITimeCardRepository, TimeCardRepository>();
+                .AddScoped<ITimeCardRepository, TimeCardRepository>()
+                .AddScoped<IProjectRepository, ProjectRepository>()
+                .AddScoped<IClientRepository, ClientRepository>();
             
             return services;
         }

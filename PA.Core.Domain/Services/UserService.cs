@@ -49,17 +49,16 @@ namespace PA.Core.Domain.Services
         {
             var user = _userRepository.Get(userViewModel.Id);
 
-            user.Email = PasswordHasher.HashPassword(userViewModel.Password);
-            user.Role = user.Role;
+            user.Password = PasswordHasher.HashPassword(userViewModel.Password);
 
             user = _userRepository.UpdateUser(user);
 
             return _mapper.Map<UserDto>(user);
         }     
         
-        public UserDto GetByUserName(string userName)
+        public UserDto GetUserByEmail(string email)
         {
-            var user = _userRepository.GetByEmail(userName);
+            var user = _userRepository.GetByEmail(email);
 
             return _mapper.Map<UserDto>(user);
         }        

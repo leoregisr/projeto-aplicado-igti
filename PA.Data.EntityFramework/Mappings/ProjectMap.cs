@@ -15,7 +15,7 @@ namespace PA.Data.Repositories.EntityFramework.Mappings
                 .HasColumnName("Nome");
             builder.HasOne(t => t.Client)
                 .WithMany(t => t.Projects)
-                .HasForeignKey("IDGestor");
+                .HasForeignKey("IDCliente");
         }
 
         protected override void ConfigureKey(EntityTypeBuilder<Project> builder)

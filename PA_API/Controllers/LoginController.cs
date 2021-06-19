@@ -43,14 +43,7 @@ namespace PA_API.Controllers
                 throw;
             }
         }
-
-        [HttpPost]
-        [Route("Logout")]
-        public IActionResult Logout()
-        {
-            return new JsonResult("");
-        }
-
+        
         [HttpPost]
         [Route("SendNewPassword")]
         public IActionResult SendNewPassword()

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using PA.Common.Extensions;
 using PA.Core.Contracts.TransferObjects;
 using PA.Core.Domain.Entities;
@@ -14,7 +13,8 @@ namespace PA.Core.Domain
             services.AddMap();
 
             return services.AddScoped<UserService>()
-                .AddScoped<TimeCardService>();
+                .AddScoped<TimeCardService>()
+                .AddScoped<ClientService>();
         }
 
         public static IServiceCollection AddMap(this IServiceCollection services)
@@ -24,6 +24,10 @@ namespace PA.Core.Domain
                 .AddMap<UserDto, User>()
                 .AddMap<TimeCardRegister, TimeCardRegisterDto>()
                 .AddMap<TimeCardRegisterDto, TimeCardRegister>()
+                .AddMap<Client, ClientDto>()
+                .AddMap<ClientDto, Client>()
+                .AddMap<Project, ProjectDto>()
+                .AddMap<ProjectDto, Client>()
                 .AddMapper();
         }
     }

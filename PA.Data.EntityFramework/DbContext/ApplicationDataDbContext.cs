@@ -1,13 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PA.Core.Domain.Entities;
 using PA.Data.Repositories.EntityFramework.EF;
 
-namespace PA.Data.Repositories.EntityFramework
+namespace PA.Data.Repositories.EntityFramework.DbContext
 {
     public class ApplicationDataDbContext : DbContextBase
     {
         public ApplicationDataDbContext(DbContextOptions<ApplicationDataDbContext> options)
         {
         }
+
+        public DbSet<TimeCardRegister> TimeCardRegisters { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -17,7 +22,5 @@ namespace PA.Data.Repositories.EntityFramework
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
             optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
-
-        
     }
 }

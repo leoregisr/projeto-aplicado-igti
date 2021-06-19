@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using PA.Core.Domain.Entities;
+using PA.Data;
 
 namespace PA.Core.Domain.Repositories
 {
-    public interface ITimeCardRepository
+    public interface ITimeCardRepository : IRepository<TimeCardRegister>
     {
-        TimeCardRegister GetTimeCardRegister(int id);
+        IList<TimeCardRegister> ListTimeCardRegisterByDate(string userEmail, DateTime date);
 
-        TimeCardRegister EditTimeCardRegister(TimeCardRegister timeCardRegister);
-
-        TimeCardRegister SaveCardRegister(TimeCardRegister timeCardRegister);
-
-        void DeleteTimeCardRegister(int id);
-
-        IList<TimeCardRegister> ListTimeCardRegisterByDate(int userId, DateTime date);
-
-        IList<TimeCardRegister> ListTimeCardRegisterByYearAndMonth(int userId, int year, int monthNumber);
+        IList<TimeCardRegister> ListTimeCardRegisterByYearAndMonth(string userEmail, int year, int monthNumber);
     }
 }

@@ -4,7 +4,7 @@ using PA.Common.Extensions;
 
 namespace PA.Data.Repositories.EntityFramework.EF
 {
-	public abstract class DbContextBase : DbContext, IEfDbContext
+	public abstract class DbContextBase : Microsoft.EntityFrameworkCore.DbContext, IEfDbContext
     {
         //protected DbContextBase(DbContextOptions<DbContextBase> options)
         //{

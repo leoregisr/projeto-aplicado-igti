@@ -3,7 +3,9 @@ using Microsoft.Extensions.Logging;
 using PA_API.Models.TimeCard;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using PA.Core.Contracts.TransferObjects;
 using PA.Core.Domain.Services;
 
 namespace PA_API.Controllers
@@ -26,52 +28,55 @@ namespace PA_API.Controllers
 
         [HttpPost]
         [Route("ClockIn")]
-        public IActionResult ClockIn(string projectName)
+        public IActionResult ClockIn(int projectId)
         {
             if (!User.Identity.IsAuthenticated)
                 return new UnauthorizedResult();
 
-            var user = _userService.GetByUserName(User.Identity.Name);
+            var user = _userService.GetUserByEmail(User.Identity.Name);
 
-            var timeCardRegister = _timeCardService.SaveCardRegister(user.Id, DateTime.Now, projectName);
+            var timeCardRegister = _timeCardService.AddTimeCardRegister(new TimeCardRegisterDto()
+            {
+                StartDate = DateTime.Now,
+                ProjectId = projectId,
+                UserEmail = User.Identity.Name 
+            });
 
             return new JsonResult(timeCardRegister);
         }
 
         [HttpPut]
         [Route("EditTimeCardRegister")]
-        public IActionResult EditTimeCardRegister(int id, DateTime time, string projectName)
+        public async Task<IActionResult> EditTimeCardRegister(TimeCardRegisterDto timeCardRegister)
         {
             if (!User.Identity.IsAuthenticated)
                 return new UnauthorizedResult();
 
-            var user = _userService.GetByUserName(User.Identity.Name);
-
-            var timeCardRegister = _timeCardService.GetTimeCardModelById(id);
+            var user = _userService.GetUserByEmail(User.Identity.Name);
 
             if (timeCardRegister.UserId != user.Id || !User.IsInRole("DP_ADMIN"))
                 return new ForbidResult();
 
-            timeCardRegister = _timeCardService.EditTimeCardRegister(timeCardRegister.ID, time, projectName);
+            timeCardRegister = await _timeCardService.EditTimeCardRegister(timeCardRegister);
 
             return new JsonResult(timeCardRegister);
         }
 
         [HttpDelete]
         [Route("DeleteTimeCardRegister")]
-        public IActionResult DeleteTimeCardRegister(int id)
+        public async Task<IActionResult> DeleteTimeCardRegister(int id)
         {
             if (!User.Identity.IsAuthenticated)
                 return new UnauthorizedResult();
 
-            var user = _userService.GetByUserName(User.Identity.Name);
+            var user = _userService.GetUserByEmail(User.Identity.Name);
 
             var timeCardRegister = _timeCardService.GetTimeCardModelById(id);
 
             if (timeCardRegister.UserId != user.Id || !User.IsInRole("DP_ADMIN"))
                 return new ForbidResult();
 
-            _timeCardService.DeleteTimeCardRegister(timeCardRegister.ID);
+            await _timeCardService.DeleteTimeCardRegister(timeCardRegister.Id);
 
             return Ok();
         }
@@ -87,12 +92,12 @@ namespace PA_API.Controllers
             if (string.IsNullOrEmpty(userName))
                 userName = User.Identity.Name;
 
-            var user = _userService.GetByUserName(userName);
+            var user = _userService.GetUserByEmail(userName);
 
             if (User.Identity.Name != user.Email || !User.IsInRole("DP_ADMIN"))
                 return new ForbidResult();
 
-            var timeCardRegisters = _timeCardService.ListTimeCardRegisterByDate(user.Id, date);
+            var timeCardRegisters = _timeCardService.ListTimeCardRegisterByDate(user.Email, date);
 
             return new JsonResult(timeCardRegisters);
         }
@@ -108,12 +113,12 @@ namespace PA_API.Controllers
             if (string.IsNullOrEmpty(userName))
                 userName = User.Identity.Name;
 
-            var user = _userService.GetByUserName(userName);
+            var user = _userService.GetUserByEmail(userName);
 
             if (User.Identity.Name != user.Email || !User.IsInRole("DP_ADMIN"))
                 return new ForbidResult();
 
-            var timeCardRegisters = _timeCardService.ListTimeCardRegisterByYearAndMonth(user.Id, year, monthNumber);
+            var timeCardRegisters = _timeCardService.ListTimeCardRegisterByYearAndMonth(user.Email, year, monthNumber);
 
             return new JsonResult(timeCardRegisters);
         }

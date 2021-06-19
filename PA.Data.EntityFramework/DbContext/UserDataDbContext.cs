@@ -2,15 +2,17 @@
 using PA.Core.Domain.Entities;
 using PA.Data.Repositories.EntityFramework.EF;
 
-namespace PA.Data.Repositories.EntityFramework
+namespace PA.Data.Repositories.EntityFramework.DbContext
 {
     public class UserDataDbContext : DbContextBase
     {
-        public DbSet<User> Users { get; set; }
-
+        
         public UserDataDbContext(DbContextOptions<UserDataDbContext> options)
         {
         }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
