@@ -1,4 +1,5 @@
-﻿using PA.Core.Domain.Entities;
+﻿using System.Linq;
+using PA.Core.Domain.Entities;
 using PA.Core.Domain.Repositories;
 using PA.Data.Repositories.EntityFramework.EF;
 
@@ -13,15 +14,14 @@ namespace PA.Data.Repositories.EntityFramework
             _context = context;
         }
 
-
-        public User GetByUserName(string username)
+        public User GetByEmail(string email)
         {
-            return _context.Find<User>();
+            return _context.Users.FirstOrDefault(u => u.Email == email);
         }
 
         public User UpdateUser(User user)
         {
-            throw new System.NotImplementedException();
+            return _context.Update(user).Entity;
         }
     }
 }

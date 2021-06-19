@@ -8,7 +8,7 @@ namespace PA.Core.Domain.Entities
 
         public virtual DateTime StartDate { get; set; }
 
-        public virtual DateTime EndDate { get; set; }
+        public virtual DateTime? EndDate { get; set; }
 
         public virtual Project Project { get; set; }
 

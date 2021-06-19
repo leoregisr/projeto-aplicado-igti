@@ -5,7 +5,7 @@ namespace PA.Core.Domain.Repositories
 {
     public interface IUserRepository: IRepository<User>
     {
-        User GetByUserName(string username);
+        User GetByEmail(string email);
 
         User UpdateUser(User user);
     }

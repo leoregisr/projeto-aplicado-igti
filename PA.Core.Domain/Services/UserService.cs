@@ -18,7 +18,7 @@ namespace PA.Core.Domain.Services
 
         public UserDto Login(string username, string password)
         {
-            var user = _userRepository.GetByUserName(username);
+            var user = _userRepository.GetByEmail(username);
 
             if (user == null)
                 throw new InvalidLoginOrPasswordException();
@@ -57,7 +57,7 @@ namespace PA.Core.Domain.Services
         
         public UserDto GetByUserName(string userName)
         {
-            var user = _userRepository.GetByUserName(userName);
+            var user = _userRepository.GetByEmail(userName);
 
             return _mapper.Map<UserDto>(user);
         }        

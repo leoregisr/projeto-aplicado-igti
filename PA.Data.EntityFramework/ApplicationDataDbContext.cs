@@ -5,6 +5,10 @@ namespace PA.Data.Repositories.EntityFramework
 {
     public class ApplicationDataDbContext : DbContextBase
     {
+        public ApplicationDataDbContext(DbContextOptions<ApplicationDataDbContext> options)
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -12,6 +16,8 @@ namespace PA.Data.Repositories.EntityFramework
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-            optionsBuilder.UseSqlServer(GetConnectionString());
+            optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
+
+        
     }
 }
