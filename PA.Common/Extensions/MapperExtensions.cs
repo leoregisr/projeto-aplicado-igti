@@ -48,7 +48,6 @@ namespace PA.Common.Extensions
         }
 
 
-
         public static IServiceCollection AddMap<T, TD>(this IServiceCollection services)
         {
             SingletonMapper.Maps.Add(new Tuple<Type, Type>(typeof(T), typeof(TD)));

@@ -17,10 +17,16 @@ namespace PA.Data.Repositories.EntityFramework.Mappings
                 .Property(t => t.Email)
                 .IsRequired()
                 .HasColumnName("Email");
-            builder.HasOne(t => t.Manager)
+            builder
+                .Property(t => t.Password)
+                .IsRequired()
+                .HasColumnName("Senha");
+            builder
+                .HasOne(t => t.Manager)
                 .WithMany(t => t.Employees)
                 .HasForeignKey("IDGestor");
-            builder.HasOne(t => t.Role)
+            builder
+                .HasOne(t => t.Role)
                 .WithMany(t => t.Employees)
                 .HasForeignKey("IDCargo");
         }

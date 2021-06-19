@@ -13,7 +13,7 @@ namespace PA.Core.Domain.Services
 {
     public static class TokenService
     {
-        private static readonly string JWTKey = "JWTKey";
+        private static readonly string JWTKey = "JWTSettings:Key";
 
         public static string GenerateToken(UserDto user)
         {
@@ -28,8 +28,8 @@ namespace PA.Core.Domain.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Username.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role.ToString())
+                    new Claim(ClaimTypes.Name, user.Email),
+                    new Claim(ClaimTypes.Role, user.Role ?? string.Empty)
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

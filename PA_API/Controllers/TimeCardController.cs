@@ -89,7 +89,7 @@ namespace PA_API.Controllers
 
             var user = _userService.GetByUserName(userName);
 
-            if (User.Identity.Name != user.Username || !User.IsInRole("DP_ADMIN"))
+            if (User.Identity.Name != user.Email || !User.IsInRole("DP_ADMIN"))
                 return new ForbidResult();
 
             var timeCardRegisters = _timeCardService.ListTimeCardRegisterByDate(user.Id, date);
@@ -110,7 +110,7 @@ namespace PA_API.Controllers
 
             var user = _userService.GetByUserName(userName);
 
-            if (User.Identity.Name != user.Username || !User.IsInRole("DP_ADMIN"))
+            if (User.Identity.Name != user.Email || !User.IsInRole("DP_ADMIN"))
                 return new ForbidResult();
 
             var timeCardRegisters = _timeCardService.ListTimeCardRegisterByYearAndMonth(user.Id, year, monthNumber);

@@ -16,19 +16,21 @@ namespace PA.Core.Domain.Services
             _mapper = mapper;
         }
 
-        public UserDto Login(string username, string password)
+        public UserDto Login(string email, string password)
         {
-            var user = _userRepository.GetByEmail(username);
+            var user = _userRepository.GetByEmail(email);
 
             if (user == null)
                 throw new InvalidLoginOrPasswordException();
 
-            var encodedPassword = PasswordHasher.HashPassword(password);
-
-            if (encodedPassword != user.Email)
+            if (PasswordHasher.VerifyHashedPassword(user.Password, password))
                 throw new InvalidLoginOrPasswordException();
 
-            return _mapper.Map<UserDto>(user);
+            var result = _mapper.Map<UserDto>(user);
+
+            result.Role = user.Role?.Name;
+
+            return result;
         }
 
         public UserDto Login(string token)

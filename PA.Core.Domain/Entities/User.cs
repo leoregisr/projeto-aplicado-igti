@@ -10,6 +10,7 @@ namespace PA.Core.Domain.Entities
         public virtual int Id { get; set; }
         public virtual string Name { get; set; }
         public virtual string Email { get; set; }
+        public virtual string Password { get; set; }
         public virtual Role Role { get; set; }
         public virtual User Manager { get; set; }
         
@@ -24,5 +25,7 @@ namespace PA.Core.Domain.Entities
             get => _employees ??= new List<User>();
             protected set => _employees = value;
         }
+
+        
     }
 }

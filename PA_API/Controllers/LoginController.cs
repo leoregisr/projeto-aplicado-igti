@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PA.Core.Domain.Services;
@@ -22,17 +23,25 @@ namespace PA_API.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("Login")]
-        public IActionResult Login(string username, string password)
+        public IActionResult Login(string email, string password)
         {
-            var user = _userService.Login(username, password);
-
-            var token = TokenService.GenerateToken(user);
-
-            return Ok(new
+            try
             {
-                user = user,
-                token = token
-            });
+                var user = _userService.Login(email, password);
+
+                var token = TokenService.GenerateToken(user);
+
+                return Ok(new
+                {
+                    user = user,
+                    token = token
+                });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         [HttpPost]

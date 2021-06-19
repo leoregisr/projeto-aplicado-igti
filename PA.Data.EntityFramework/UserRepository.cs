@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using PA.Core.Domain.Entities;
 using PA.Core.Domain.Repositories;
 using PA.Data.Repositories.EntityFramework.EF;
@@ -16,7 +17,9 @@ namespace PA.Data.Repositories.EntityFramework
 
         public User GetByEmail(string email)
         {
-            return _context.Users.FirstOrDefault(u => u.Email == email);
+            return _context.Users
+                .Include(i => i.Role)
+                .FirstOrDefault(u => u.Email == email);
         }
 
         public User UpdateUser(User user)
