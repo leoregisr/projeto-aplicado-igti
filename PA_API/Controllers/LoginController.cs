@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PA.Core.Domain.Services;
+using PA_API.Models.User;
 
 namespace PA_API.Controllers
 {
@@ -23,11 +24,11 @@ namespace PA_API.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("Login")]
-        public IActionResult Login(string email, string password)
+        public IActionResult Login([FromBody]UserViewModel model)
         {
             try
             {
-                var user = _userService.Login(email, password);
+                var user = _userService.Login(model.Email, model.Password);
 
                 var token = TokenService.GenerateToken(user);
 

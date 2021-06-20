@@ -1,33 +1,33 @@
 const constantMock = window.fetch;
 const HEADERS = new Headers({ 'Content-type': 'application/json; charset=utf-8' });
 
-const W4BAuthenticationService = {
+const AuthenticationService = {
 
-    Login(URL_BASE, issuer, applicationName, token) {
-        return constantMock(`${URL_BASE}/auth`, {
+    Login(email, password) {
+        return constantMock(`${process.env.REACT_APP_API}/Login/Login`, {
             method: "POST",
             headers: HEADERS,
             body: JSON.stringify({
-                Token: token,
-                Issuer: issuer,
-                Application: applicationName
+                email: email,
+                password: password
             })
         })
-            .then(res => res.json())
-            .then(data => {
+        .then(res => res.json())
+        .then(data => {
                 sessionStorage.setItem("AuthToken", data.token);
                 sessionStorage.setItem("AuthUser", JSON.stringify(data.user));
                 return data
-            })
-            .catch(console.log);
+        })
+        .catch(console.log);
     },
     IsAuthenticated() {
-        const token = sessionStorage.getItem("AuthToken");
-        const loginIssuer = sessionStorage.getItem("AuthIssuer");
-        const isExternalLogin = loginIssuer !== null && loginIssuer !== '';
+        const token = sessionStorage.getItem("AuthToken");                
 
-        return (isExternalLogin && token !== null) //|| !isExternalLogin;
+        return (token !== null);
+    },
+    GetUser() {
+        return JSON.parse(sessionStorage.getItem("AuthUser")) || {}; 
     }
 }
 
-export default W4BAuthenticationService;
+export default AuthenticationService;

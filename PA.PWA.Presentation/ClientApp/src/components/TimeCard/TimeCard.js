@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Loading from '../../components/LoadingCustom';
 import logoImage from '../assets/img/logo.png';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container';
 import InputLabel from '@material-ui/core/InputLabel';
 import Icon from '@material-ui/core/Icon';
 import FormControl from '@material-ui/core/FormControl';
+import TimeCardService from './TimeCardService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,10 +66,32 @@ const ColorButton = withStyles((theme) => ({
 export default function TimeCard() {
   const classes = useStyles();
 
-  const [ isAuthenticated, setIsAuthenticated ] = useState(false);  
-  const [ showLoading, setShowLoading ] = useState(true)
+  const [ isAuthenticated, setIsAuthenticated ] = useState(false);
+  const [ showLoading, setShowLoading ] = useState(true);
+  const [ clientsData, setClientsData] = useState([])
+  const [ projectValuesData, setProjectValuesData] = useState([])
+
+  const clients = useMemo(() => {
+    const clientsValues = [];
+    clientsData.forEach((d) => {
+      clientsValues.push(d);
+    });  
+    return clientsValues;
+  });
+
+  const projects = useMemo(() => {
+    const projectValues = [];
+    projectValuesData.forEach((d) => {
+      projectValues.push(d)
+    });
+  
+    return projectValues;
+  });
+  
 
   useEffect(() => {
+    // loadClients();
+
     if (isAuthenticated) {
       RedirectToHome();
     } else {
@@ -79,6 +102,18 @@ export default function TimeCard() {
   const RedirectToHome = () => {
     this.setState({ redirect: "/Home" }); 
   }  
+
+  const loadClients = () => {
+    TimeCardService.ListClients()
+    .then((data) => {
+      if (data)
+        setClientsData(data);
+    });
+  }
+
+  const handleClockIn = () => {
+
+  }
   
   return (
         <>
@@ -115,6 +150,11 @@ export default function TimeCard() {
                                 <MenuItem value="">
                                     <em>Nome Cliente</em>
                                 </MenuItem>
+                                {clients.map((option) => (
+                                  <MenuItem key={option.label} value={option.value}>
+                                    {option.label}
+                                  </MenuItem>
+                                ))}
                             </Select>
                         </FormControl>              
                         <FormControl 
@@ -134,7 +174,12 @@ export default function TimeCard() {
                                 value="">
                                 <MenuItem value="">
                                     <em>Nome Projeto</em>
-                                </MenuItem>                            
+                                </MenuItem> 
+                                {projects.map((option) => (
+                                  <MenuItem key={option.label} value={option.value}>
+                                    {option.label}
+                                  </MenuItem>
+                                ))}                           
                             </Select>                        
                         </FormControl>    
                         <FormControl 
@@ -146,7 +191,9 @@ export default function TimeCard() {
                                 disableElevation
                                 fullWidth
                                 className={classes.submit}
-                                endIcon={<Icon>play_arrow</Icon>}>
+                                endIcon={<Icon>play_arrow</Icon>}
+                                onClick={handleClockIn}
+                            >
                                 INICIAR
                             </ColorButton>
                         </FormControl>      

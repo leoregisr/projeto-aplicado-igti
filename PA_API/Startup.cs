@@ -23,7 +23,21 @@ namespace PA_API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {   
+                    options.JsonSerializerOptions.IgnoreNullValues = true;
+                });;
+
+
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .SetIsOriginAllowed(s => true)
+                    .AllowCredentials();
+            }));
 
             services
                 .AddDomain()
@@ -99,8 +113,11 @@ namespace PA_API
 
             app.UseRouting();
 
+
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Loading from '../../components/LoadingCustom';
 import logoImage from '../assets/img/logo.png';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { grey } from '@material-ui/core/colors';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
+import AuthenticationService from './AuthService';
+import { useHistory   } from 'react-router'; 
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,10 +53,17 @@ export default function Login() {
   const classes = useStyles();
 
   const [ isAuthenticated, setIsAuthenticated ] = useState(false);  
-  const [ showLoading, setShowLoading ] = useState(true)
+  const [ showLoading, setShowLoading ] = useState(true);  
+  const [ state , setState ] = useState({
+    email : "",
+    password : ""
+  });  
 
-  useEffect(() => {
-    if (isAuthenticated) {
+  const history = useHistory();    
+
+  useEffect(() => {   
+
+    if (AuthenticationService.IsAuthenticated()) {
       RedirectToHome();
     } else {
       setShowLoading(false);      
@@ -64,8 +71,26 @@ export default function Login() {
   });  
 
   const RedirectToHome = () => {
-    this.setState({ redirect: "/Home" }); 
+    history.push("/Home")    
+  }    
+
+  const LoginService =  () => {      
+      AuthenticationService.Login(state.email, state.password)
+      .then((data) => {
+        setIsAuthenticated(true);        
+      })
+      .catch((error) => {
+
+      });
   }  
+
+  const handleChange = (e) => {
+    const {id , value} = e.target;    
+    setState(prevState => ({
+        ...prevState,
+        [id] : value
+    }));    
+  }
   
   return (
         <>
@@ -81,16 +106,21 @@ export default function Login() {
                     <img src={logoImage}/>
                   </div>
                   <TextField 
-                      id="standard-basic" 
+                      id="email" 
                       label="E-mail" 
                       fullWidth
-                      margin="normal"
+                      margin="normal"                                            
+                      onChange={handleChange}
+                      value={state.email}
                       required />
                   <TextField 
-                    id="standard-basic" 
+                    id="password" 
                     label="Senha" 
                     fullWidth                  
                     margin="normal"
+                    type="password"         
+                    value={state.password}
+                    onChange={handleChange}
                     required  />
                   <ColorButton 
                     variant="contained" 
@@ -98,6 +128,7 @@ export default function Login() {
                     disableElevation
                     fullWidth
                     className={classes.submit}
+                    onClick={LoginService}
                     >
                       ENTRAR
                     </ColorButton>      

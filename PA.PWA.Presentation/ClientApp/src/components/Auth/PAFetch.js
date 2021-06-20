@@ -1,31 +1,30 @@
+import { authHeader } from '../../_helpers/auth-header';
+
 const constantMock = window.fetch;
 
 window.fetch = function() {
     const url = arguments[0];
     let options = arguments[1];
-    const loginIssuer = this.sessionStorage.getItem("AuthIssuer");    
-    const isExternalLogin = loginIssuer !== null && loginIssuer !== '';    
 
-    if (isExternalLogin) {
-        let w4bToken = this.sessionStorage.getItem("W4BToken");
+    let token = this.sessionStorage.getItem("AuthToken");
 
-        options.headers = {
-            ...options.headers,
-            'Authorization': `Bearer ${w4bToken}`
-        }        
-        
-    } else {
-        options.headers = {
-            ...options.headers,
-            'credentials': 'include'
-        }              
-    }       
+    options.headers = {
+        ...options.headers,
+        'Authorization': `Bearer ${token}`
+    }
+    
+    options.headers = {
+        ...options.headers,
+        'credentials': 'include'
+    }        
+    console.log("aaaaaaaa")
 
     if (options.method === 'POST'){
         options.headers = {
             ...options.headers,
             'Content-type': 'application/json; charset=utf-8',
             'Content-Encoding': 'gzip'
+            
         }        
     }
 
