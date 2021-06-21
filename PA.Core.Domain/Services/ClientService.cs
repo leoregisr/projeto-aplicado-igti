@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using PA.Core.Contracts.TransferObjects;
+using PA.Core.Domain.Entities;
 using PA.Core.Domain.Repositories;
 
 namespace PA.Core.Domain.Services
@@ -25,7 +26,7 @@ namespace PA.Core.Domain.Services
         {
             var clients = _clientRepository.ListAll();
 
-            return _mapper.Map<List<ClientDto>>(clients);
+            return _mapper.Map<List<Client>, List<ClientDto>>(clients);
         }
 
         public IList<ProjectDto> ListProjectsByClientId(int clientId)

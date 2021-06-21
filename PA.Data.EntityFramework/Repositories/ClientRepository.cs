@@ -16,7 +16,7 @@ namespace PA.Data.Repositories.EntityFramework.Repositories
             _context = context;
         }
 
-        public IList<Client> ListAll()
+        public List<Client> ListAll()
         {
             return _context.Clients.ToList();
         }

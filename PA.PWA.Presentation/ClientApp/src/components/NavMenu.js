@@ -114,8 +114,7 @@ export default function NavMenu () {
   const [user, setUser] = useState(AuthenticationService.GetUser())
   const dropOpen = Boolean(anchorEl);
 
-  const handleDrawerOpen = () => {
-    console.log(open)
+  const handleDrawerOpen = () => {    
     setOpen(true);
   };
 

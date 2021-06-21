@@ -7,6 +7,6 @@ namespace PA.Core.Domain.Repositories
 {
     public interface IClientRepository : IRepository<Client>
     {
-        IList<Client> ListAll();
+        List<Client> ListAll();
     }
 }

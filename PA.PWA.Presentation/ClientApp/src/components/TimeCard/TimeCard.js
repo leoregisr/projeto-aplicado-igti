@@ -69,7 +69,10 @@ export default function TimeCard() {
   const [ isAuthenticated, setIsAuthenticated ] = useState(false);
   const [ showLoading, setShowLoading ] = useState(true);
   const [ clientsData, setClientsData] = useState([])
-  const [ projectValuesData, setProjectValuesData] = useState([])
+  const [ projectsData, setProjectsData] = useState([])
+  const [ clientId, setClientId ] = useState("")
+  const [ projectId, setProjectId ] = useState("")
+
 
   const clients = useMemo(() => {
     const clientsValues = [];
@@ -81,7 +84,7 @@ export default function TimeCard() {
 
   const projects = useMemo(() => {
     const projectValues = [];
-    projectValuesData.forEach((d) => {
+    projectsData.forEach((d) => {
       projectValues.push(d)
     });
   
@@ -90,14 +93,18 @@ export default function TimeCard() {
   
 
   useEffect(() => {
-    // loadClients();
+    loadClients();
 
     if (isAuthenticated) {
       RedirectToHome();
     } else {
       setShowLoading(false);      
     }
-  });  
+  }, []);  
+
+  useEffect(() => {    
+    loadProjects(clientId);
+  }, [clientId]);
 
   const RedirectToHome = () => {
     this.setState({ redirect: "/Home" }); 
@@ -111,9 +118,34 @@ export default function TimeCard() {
     });
   }
 
-  const handleClockIn = () => {
-
+  const loadProjects = () => {
+    if (clientId) {
+      TimeCardService.ListClientProjects(clientId)
+      .then((data) => {
+        if (data)
+          setProjectsData(data);
+      });
+    }    
   }
+
+  const handleClientIdChange = (e) => {
+    setClientId(e.target.value);
+  }
+
+  const handleProjectIdChange = (e) => {
+    setProjectId(e.target.value);
+  }
+
+  const handleClockIn = () => {
+    if (projectId) {
+      TimeCardService.ClockIn(projectId)
+      .then(() => {
+
+      });
+    }
+  }
+
+  
   
   return (
         <>
@@ -146,13 +178,14 @@ export default function TimeCard() {
                                 fullWidth
                                 displayEmpty
                                 className={classes.selectEmpty}
-                                value="">
+                                value={clientId}
+                                onChange={handleClientIdChange}>
                                 <MenuItem value="">
                                     <em>Nome Cliente</em>
                                 </MenuItem>
                                 {clients.map((option) => (
-                                  <MenuItem key={option.label} value={option.value}>
-                                    {option.label}
+                                  <MenuItem key={option.id} value={option.id}>
+                                    {option.name}
                                   </MenuItem>
                                 ))}
                             </Select>
@@ -171,13 +204,14 @@ export default function TimeCard() {
                                 fullWidth
                                 displayEmpty
                                 className={classes.selectEmpty}
-                                value="">
+                                value={projectId}
+                                onChange={handleProjectIdChange}>
                                 <MenuItem value="">
                                     <em>Nome Projeto</em>
                                 </MenuItem> 
                                 {projects.map((option) => (
-                                  <MenuItem key={option.label} value={option.value}>
-                                    {option.label}
+                                  <MenuItem key={option.id} value={option.id}>
+                                    {option.name}
                                   </MenuItem>
                                 ))}                           
                             </Select>                        

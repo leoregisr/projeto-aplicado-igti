@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using PA.Core.Domain;
 using PA.Data.Repositories.EntityFramework;
+using Serilog;
 
 namespace PA_API
 {
@@ -38,6 +40,15 @@ namespace PA_API
                     .SetIsOriginAllowed(s => true)
                     .AllowCredentials();
             }));
+
+            services.AddLogging(l => l
+                .AddSerilog(dispose: true));
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration)
+                .CreateLogger();
+
+            Serilog.Debugging.SelfLog.Enable(Console.WriteLine);
 
             services
                 .AddDomain()

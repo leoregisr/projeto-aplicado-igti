@@ -1,4 +1,4 @@
-const constantMock = window.fetch;
+// const constantMock = window.fetch;
 const HEADERS = new Headers({ 'Content-type': 'application/json; charset=utf-8' });
 
 require("../Auth/PAFetch.js");
@@ -6,7 +6,7 @@ require("../Auth/PAFetch.js");
 const TimeCardService = {
 
     ListClients() {
-        return constantMock(`${process.env.REACT_APP_API}/Client/Clients`, {
+        return fetch(`${process.env.REACT_APP_API}/Client/Clients`, {
             method: "GET",
             headers: HEADERS
         })
@@ -17,7 +17,7 @@ const TimeCardService = {
         .catch(console.log);
     },
     ListClientProjects(clientId) {
-        return constantMock(`${process.env.REACT_APP_API}/Client/${clientId}/Projects`, {
+        return fetch(`${process.env.REACT_APP_API}/Client/${clientId}/Projects`, {
             method: "GET",
             headers: HEADERS
         })
@@ -28,12 +28,10 @@ const TimeCardService = {
         .catch(console.log);
     },
     ClockIn(projectId) {
-        return constantMock(`${process.env.REACT_APP_API}/TimeCard/ClockIn`, {
+        return fetch(`${process.env.REACT_APP_API}/TimeCard/ClockIn`, {
             method: "POST",
             headers: HEADERS,
-            body: JSON.stringify({
-                projectId: projectId
-            })
+            body: JSON.stringify(projectId)
         })
         .then(res => res.json())
         .then(data => {                
@@ -42,7 +40,7 @@ const TimeCardService = {
         .catch(console.log);
     },
     EditTimeCardRegister(projectId) {
-        return constantMock(`${process.env.REACT_APP_API}/TimeCard/TimeCard/EditTimeCardRegister`, {
+        return fetch(`${process.env.REACT_APP_API}/TimeCard/TimeCard/EditTimeCardRegister`, {
             method: "PUT",
             headers: HEADERS,
             body: JSON.stringify({
@@ -56,7 +54,7 @@ const TimeCardService = {
         .catch(console.log);
     },
     DeleteTimeCardRegister(id) {
-        return constantMock(`${process.env.REACT_APP_API}/TimeCard/DeleteTimeCardRegister?id=${id}`, {
+        return fetch(`${process.env.REACT_APP_API}/TimeCard/DeleteTimeCardRegister/${id}`, {
             method: "DELETE",
             headers: HEADERS            
         })
@@ -67,7 +65,7 @@ const TimeCardService = {
         .catch(console.log);
     },
     ListTimeCardRegisterByDate(date, userName) {
-        return constantMock(`${process.env.REACT_APP_API}/TimeCard/ListTimeCardRegisterByDate?date=${date}&userName=${userName}`, {
+        return fetch(`${process.env.REACT_APP_API}/TimeCard/ListTimeCardRegisterByDate?date=${date}&userName=${userName}`, {
             method: "GET",
             headers: HEADERS            
         })
@@ -78,7 +76,7 @@ const TimeCardService = {
         .catch(console.log);
     },
     ListTimeCardRegisterByYearAndMonth(year, month, userName) {
-        return constantMock(`${process.env.REACT_APP_API}/TimeCard/ListTimeCardRegisterByYearAndMonth?year=${year}&month=${month}&userName=${userName}`, {
+        return fetch(`${process.env.REACT_APP_API}/TimeCard/ListTimeCardRegisterByYearAndMonth?year=${year}&month=${month}&userName=${userName}`, {
             method: "GET",
             headers: HEADERS            
         })

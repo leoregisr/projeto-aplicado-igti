@@ -28,14 +28,12 @@ namespace PA_API.Controllers
 
         [HttpPost]
         [Route("ClockIn")]
-        public IActionResult ClockIn(int projectId)
+        public async Task<IActionResult> ClockIn([FromBody] int projectId)
         {
             if (!User.Identity.IsAuthenticated)
                 return new UnauthorizedResult();
 
-            var user = _userService.GetUserByEmail(User.Identity.Name);
-
-            var timeCardRegister = _timeCardService.AddTimeCardRegister(new TimeCardRegisterDto()
+            var timeCardRegister = await _timeCardService.AddTimeCardRegister(new TimeCardRegisterDto()
             {
                 StartDate = DateTime.Now,
                 ProjectId = projectId,
@@ -47,7 +45,7 @@ namespace PA_API.Controllers
 
         [HttpPut]
         [Route("EditTimeCardRegister")]
-        public async Task<IActionResult> EditTimeCardRegister(TimeCardRegisterDto timeCardRegister)
+        public async Task<IActionResult> EditTimeCardRegister([FromBody] TimeCardRegisterDto timeCardRegister)
         {
             if (!User.Identity.IsAuthenticated)
                 return new UnauthorizedResult();
@@ -63,8 +61,8 @@ namespace PA_API.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteTimeCardRegister")]
-        public async Task<IActionResult> DeleteTimeCardRegister(int id)
+        [Route("DeleteTimeCardRegister/{id}")]
+        public async Task<IActionResult> DeleteTimeCardRegister([FromRoute] int id)
         {
             if (!User.Identity.IsAuthenticated)
                 return new UnauthorizedResult();
