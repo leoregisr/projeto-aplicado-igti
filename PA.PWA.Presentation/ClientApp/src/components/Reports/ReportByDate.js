@@ -9,7 +9,7 @@ import Container from '@material-ui/core/Container';
 import InputLabel from '@material-ui/core/InputLabel';
 import Icon from '@material-ui/core/Icon';
 import FormControl from '@material-ui/core/FormControl';
-import TimeCardService from './TimeCardService';
+import ReportsService from './ReportsService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,7 +62,7 @@ const ColorButton = withStyles((theme) => ({
   },
 }))(Button);
 
-export default function TimeCard() {
+export default function ReportByDate() {
   const classes = useStyles();
 
   const [ isAuthenticated, setIsAuthenticated ] = useState(false);
@@ -110,7 +110,7 @@ export default function TimeCard() {
   }  
 
   const loadClients = () => {
-    TimeCardService.ListClients()
+    ReportsService.ListClients()
     .then((data) => {
       if (data)
         setClientsData(data);
@@ -119,7 +119,7 @@ export default function TimeCard() {
 
   const loadProjects = () => {
     if (clientId) {
-      TimeCardService.ListClientProjects(clientId)
+      ReportsService.ListClientProjects(clientId)
       .then((data) => {
         if (data)
           setProjectsData(data);
@@ -137,7 +137,7 @@ export default function TimeCard() {
 
   const handleClockIn = () => {
     if (projectId) {
-      TimeCardService.ClockIn(projectId)
+      ReportsService.ClockIn(projectId)
       .then(() => {
 
       });

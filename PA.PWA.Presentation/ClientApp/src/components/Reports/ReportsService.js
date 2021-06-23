@@ -2,7 +2,7 @@ const HEADERS = new Headers({ 'Content-type': 'application/json; charset=utf-8' 
 
 require("../Auth/PAFetch.js");
 
-const TimeCardService = {
+const ReportsService = {
 
     ListClients() {
         return fetch(`${process.env.REACT_APP_API}/Client/Clients`, {
@@ -87,4 +87,4 @@ const TimeCardService = {
     }
 }
 
-export default TimeCardService;
+export default ReportsService;

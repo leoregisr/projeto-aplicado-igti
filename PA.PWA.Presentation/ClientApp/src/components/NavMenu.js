@@ -17,10 +17,7 @@ import AuthenticationService from './Auth/AuthService';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import { blue } from '@material-ui/core/colors';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';  
@@ -104,8 +101,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function NavMenu () {  
-
+export default function NavMenu (props) {  
+  const title = props.title ?? "";
   const classes = useStyles();
   const theme = useTheme();
   
@@ -150,7 +147,7 @@ export default function NavMenu () {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            <NavLink tag={Link} className={classes.link} to="/Home">Início</NavLink>
+            {title}
           </Typography>
           {user && (
             <div>
@@ -203,10 +200,13 @@ export default function NavMenu () {
         </div>        
         <Divider />
         <List>          
-          <ListItem button key="Alocação" component={Link} to="/TimeCard" className={classes.link} >
+        <ListItem button key="Home" component={Link} to="/Home" className={classes.link}>
+            <ListItemText primary="Início" />
+          </ListItem>
+          <ListItem button key="Alocação" component={Link} to="/TimeCard" className={classes.link}>
             <ListItemText primary="Alocação" />
           </ListItem>
-          <ListItem button key="Pendências" disabled>            
+          <ListItem button key="Pendências" component={Link} to="/Pendencies" className={classes.link}>            
             <ListItemText primary="Pendências" />
           </ListItem>
           <ListItem button key="Calendário" disabled>            
