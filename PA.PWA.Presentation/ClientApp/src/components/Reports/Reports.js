@@ -67,12 +67,12 @@ export default function Reports() {
             </h1>
             <div className={classes.paper}>                
               <List dense className={classes.list}>                  
-                <ListItem button key="Relatório-1" component={Link} to="/Reports/ReportsByDate">            
+                <ListItem button key="Relatório-1" component={Link} to="/Reports/ReportByDate">            
                   <ListItemText primary="Relatório Horas/Data"
                     secondary={"Descrição"} />
                 </ListItem>
-                <ListItem button key="Relatório-2" component={Link} to="/Reports/ReportsByYearMonth">            
-                  <ListItemText primary="Relatórios Horas/Mês"
+                <ListItem button key="Relatório-2" component={Link} to="/Reports/ReportByYearMonth">            
+                  <ListItemText primary="Relatório Horas/Mês"
                     secondary={"Descrição"}/>
                 </ListItem>
               </List>

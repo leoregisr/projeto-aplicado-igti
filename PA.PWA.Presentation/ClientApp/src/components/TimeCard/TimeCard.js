@@ -150,6 +150,10 @@ export default function TimeCard() {
         <>
             <Loading show={showLoading} />
             <Container component="main" maxWidth="xs">
+              <br/>
+              <br/>
+              <br/>
+              <br/>
                 <h1 className={classes.title}>
                     Alocação
                 </h1>
